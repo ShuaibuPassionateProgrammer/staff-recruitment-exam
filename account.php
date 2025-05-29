@@ -32,7 +32,7 @@
             padding: 0.5rem 1rem;
             transition: all 0.3s ease;
         }
-        .nav-link:hover, .nav-link.active {
+        .nav-link:hover {
             color: white !important;
             background: rgba(255,255,255,0.1);
             border-radius: 8px;
@@ -63,17 +63,19 @@
         .table td {
             vertical-align: middle;
         }
-        .btn-primary {
-            background: linear-gradient(90deg, #4b6cb7 0%, #182848 100%);
-            border: none;
-            padding: 0.75rem 2rem;
-            border-radius: 10px;
+        .btn {
+            padding: 0.5rem 1.5rem;
+            border-radius: 8px;
             font-weight: 500;
             transition: all 0.3s ease;
         }
-        .btn-primary:hover {
+        .btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(75, 108, 183, 0.3);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .btn-primary {
+            background: linear-gradient(90deg, #4b6cb7 0%, #182848 100%);
+            border: none;
         }
         .btn-success {
             background: linear-gradient(90deg, #28a745 0%, #218838 100%);
@@ -113,6 +115,7 @@
             background: white;
             border-radius: 15px;
             padding: 2rem;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
             margin-bottom: 2rem;
         }
         .quiz-question {
@@ -136,10 +139,10 @@
             padding: 2rem;
             background: rgba(75, 108, 183, 0.1);
             border-radius: 15px;
-            margin-bottom: 2rem;
+            margin-bottom: 1rem;
         }
         .score-number {
-            font-size: 3rem;
+            font-size: 2.5rem;
             font-weight: 700;
             color: #182848;
         }
