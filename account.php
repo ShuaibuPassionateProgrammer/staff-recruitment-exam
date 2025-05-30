@@ -174,6 +174,7 @@
                         session_start();
                         if(!(isset($_SESSION['email']))){
                             header("location:index.php");
+                            exit();
                         } else {
                             $name = $_SESSION['name'];
                             $email = $_SESSION['email'];
@@ -187,7 +188,7 @@
                                         <i class="fas fa-sign-out-alt me-2"></i>Sign out
                                     </a>
                                   </li>';
-                        }
+                        //}
                     ?>
                 </ul>
             </div>
