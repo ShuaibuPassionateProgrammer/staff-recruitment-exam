@@ -25,22 +25,22 @@ var b = document.forms["form"]["cpassword"].value;if (a!=b){alert("Passwords mus
 
 </head>
 
-<body>
-<div class="header">
-<div class="row">
+<body style="background:#f8f9fa;">
+<div class="header" style="box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+<div class="row" style="padding: 10px 0;">
 <div class="col-lg-6">
-<span class="logo">Staff Recruitment Online Examination System</span></div>
+<span class="logo">Staff Recruitment <span style="color:#337ab7;">Online Examination System</span></span></div>
 <div class="col-md-2 col-md-offset-4">
-<a href="#" class="pull-right btn sub1" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>&nbsp;<span class="title1"><b>Signin</b></span></a></div>
+<a href="#" class="pull-right btn sub1" data-toggle="modal" data-target="#myModal" style="border-radius:4px;"><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>&nbsp;<span class="title1"><b>Signin</b></span></a></div>
 <!--sign in modal start-->
 <div class="modal fade" id="myModal">
   <div class="modal-dialog">
-    <div class="modal-content title1">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <div class="modal-content title1" style="border-radius:8px;">
+      <div class="modal-header" style="background:#337ab7; color:#fff; border-radius:8px 8px 0 0;">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color:#fff;"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title title1"><span style="color:orange">Log In</span></h4>
       </div>
-      <div class="modal-body">
+      <div class="modal-body" style="background:#f8f9fa;">
         <form class="form-horizontal" action="login.php?q=index.php" method="POST">
 <fieldset>
 
@@ -65,11 +65,9 @@ var b = document.forms["form"]["cpassword"].value;if (a!=b){alert("Passwords mus
 </div>
 
       </div>
-      <div class="modal-footer">
+      <div class="modal-footer" style="background:#f8f9fa; border-radius:0 0 8px 8px;">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         <button type="submit" class="btn btn-primary" name="user">Log in</button>
-		</fieldset>
-</form>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
@@ -83,7 +81,7 @@ var b = document.forms["form"]["cpassword"].value;if (a!=b){alert("Passwords mus
 <div class="row">
 
 <div class="col-md-7"></div>
-<div class="col-md-4 panel">
+<div class="col-md-4 panel" style="background:#fff; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.04); padding: 30px 20px;">
 <!-- sign in form begins -->  
   <form class="form-horizontal" name="form" action="sign.php?q=account.php" onSubmit="return validateForm()" method="POST">
 <fieldset>
@@ -160,7 +158,7 @@ var b = document.forms["form"]["cpassword"].value;if (a!=b){alert("Passwords mus
 <div class="form-group">
   <label class="col-md-12 control-label" for=""></label>
   <div class="col-md-12"> 
-    <input  type="submit" class="sub" value="Sign Up" class="btn btn-success"/>
+    <input  type="submit" class="sub btn btn-success" value="Sign Up" style="width:100%; border-radius:4px;"/>
   </div>
 </div>
 
@@ -171,7 +169,7 @@ var b = document.forms["form"]["cpassword"].value;if (a!=b){alert("Passwords mus
 </div><!--container end-->
 
 <!--Footer start-->
-<div class="row footer">
+<div class="row footer" style="margin-top:40px; border-radius:0 0 8px 8px;">
 <div class="col-md-3 box">
 <a href="#" target="_blank">About us</a>
 </div>
