@@ -7,20 +7,26 @@
     $email = stripslashes($email);
     $email = addslashes($email);
     $password = stripslashes($password);
-    $password = md5($password);
     $password = addslashes($password);
+    $password = md5($password);
+
     $result = mysqli_query($con,"SELECT email FROM admin WHERE email = '$email' and password = '$password'") or die('Error');
     $count=mysqli_num_rows($result);
     if($count==1){
-    session_start();
-    if(isset($_SESSION['email'])){
-    session_unset();}
-    $_SESSION["name"] = 'Admin';
-    $_SESSION["key"] ='sunny7785068889';
-    $_SESSION["email"] = $email;
-    header("location:dash.php?q=0");
+        session_start();
+        if(isset($_SESSION['email'])){
+            session_unset();
+            session_destroy();
+            session_start();
+        }
+        $_SESSION["name"] = 'Admin';
+        $_SESSION["key"] ='sunny7785068889';
+        $_SESSION["email"] = $email;
+        header("location:dash.php?q=0");
     }
-    else header("location:$ref?w=Warning : Access denied");
+    else {
+        header("location:$ref?w=Warning : Access denied");
+    }
 
     // Admin properties and features based on the codebase:
     //
