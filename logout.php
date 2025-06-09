@@ -1,18 +1,7 @@
-<?php
-require_once 'session_handler.php';
-
-// Clear all session variables
-$_SESSION = array();
-
-// Destroy the session cookie
-if (isset($_COOKIE[session_name()])) {
-    setcookie(session_name(), '', time()-3600, '/');
-}
-
-// Destroy the session
-session_destroy();
-
-// Redirect to login page
-header("location:login.php");
-exit();
+<?php 
+session_start();
+if(isset($_SESSION['email'])){
+session_destroy();}
+$ref= @$_GET['q'];
+header("location:$ref");
 ?>
