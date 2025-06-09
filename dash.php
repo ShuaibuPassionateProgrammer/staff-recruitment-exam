@@ -428,6 +428,10 @@ $name = $_SESSION['name'];
 
         // Add Exam
         if(@$_GET['q'] == 4) {
+            if(!isset($_GET['step'])) $_GET['step'] = 1;
+            $step = $_GET['step'];
+            
+            if($step == 1) {
         ?>
         <div class="card">
             <div class="card-header">
@@ -467,7 +471,85 @@ $name = $_SESSION['name'];
                 </form>
             </div>
         </div>
-        <?php }
+        <?php
+            } else if($step == 2) {
+                $eid = $_GET['eid'];
+                $n = $_GET['n'];
+                $total = $_GET['total'] ?? $n;
+        ?>
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Add Question <?php echo $n; ?> of <?php echo $total; ?></h5>
+                <div class="progress" style="width: 200px;">
+                    <div class="progress-bar" role="progressbar" 
+                         style="width: <?php echo ($n/$total*100); ?>%" 
+                         aria-valuenow="<?php echo $n; ?>" 
+                         aria-valuemin="0" 
+                         aria-valuemax="<?php echo $total; ?>">
+                        <?php echo $n; ?>/<?php echo $total; ?>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="update.php?q=addqns&eid=<?php echo $eid; ?>&n=<?php echo $n; ?>&total=<?php echo $total; ?>">
+                    <div class="mb-3">
+                        <label class="form-label">Question</label>
+                        <textarea name="qns" class="form-control" rows="3" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Options</label>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <span class="input-group-text">A</span>
+                                    <input type="text" name="a" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <span class="input-group-text">B</span>
+                                    <input type="text" name="b" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <span class="input-group-text">C</span>
+                                    <input type="text" name="c" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <span class="input-group-text">D</span>
+                                    <input type="text" name="d" class="form-control" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Correct Answer</label>
+                        <select name="ans" class="form-select" required>
+                            <option value="">Select correct option</option>
+                            <option value="a">Option A</option>
+                            <option value="b">Option B</option>
+                            <option value="c">Option C</option>
+                            <option value="d">Option D</option>
+                        </select>
+                    </div>
+                    <div class="text-end">
+                        <button type="submit" class="btn btn-primary">
+                            <?php if($n == $total) { ?>
+                                <i class="fas fa-check me-2"></i>Finish
+                            <?php } else { ?>
+                                <i class="fas fa-arrow-right me-2"></i>Next Question
+                            <?php } ?>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <?php
+            }
+        }
 
         // Remove Exam
         if(@$_GET['q'] == 5) {
