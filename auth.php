@@ -125,30 +125,67 @@ try {
     if ($result && $result->num_rows === 1) {
         $row = $result->fetch_assoc();
         
-        // Verify user password (using MD5 for compatibility)
-        if (md5($password) === $row['password']) {
-            // Clear login attempts
-            unset($attempts[$ip]);
-            file_put_contents($attempts_file, json_encode($attempts));
-            
-            // Set user session variables
-            $_SESSION["name"] = $row['name'];
-            $_SESSION["email"] = $email;
-            $_SESSION["last_activity"] = time();
-            $_SESSION["ip"] = $ip;
-            $_SESSION["user_agent"] = $_SERVER['HTTP_USER_AGENT'];
-            
-            // Generate CSRF token
-            $_SESSION["csrf_token"] = generateToken();
-            
-            // Regenerate session ID
-            session_regenerate_id(true);
-            
-            // Log successful user login
-            logSecurityEvent('USER_LOGIN', "User login successful: $email from IP: $ip");
-            
-            header("location:account.php");
-            exit();
+        // Check if password is still using MD5
+        if (strlen($row['password']) === 32) { // MD5 hash is 32 characters
+            // Verify old MD5 password and upgrade to Argon2id
+            if (md5($password) === $row['password']) {
+                // Upgrade to Argon2id
+                $new_hash = generatePasswordHash($password);
+                $upgrade_stmt = $con->prepare("UPDATE user SET password = ? WHERE email = ?");
+                $upgrade_stmt->bind_param("ss", $new_hash, $email);
+                $upgrade_stmt->execute();
+                $upgrade_stmt->close();
+                
+                // Continue with login
+                // Clear login attempts
+                unset($attempts[$ip]);
+                file_put_contents($attempts_file, json_encode($attempts));
+                
+                // Set user session variables
+                $_SESSION["name"] = $row['name'];
+                $_SESSION["email"] = $email;
+                $_SESSION["last_activity"] = time();
+                $_SESSION["ip"] = $ip;
+                $_SESSION["user_agent"] = $_SERVER['HTTP_USER_AGENT'];
+                
+                // Generate CSRF token
+                $_SESSION["csrf_token"] = generateToken();
+                
+                // Regenerate session ID
+                session_regenerate_id(true);
+                
+                // Log successful user login
+                logSecurityEvent('USER_LOGIN', "User login successful: $email from IP: $ip");
+                
+                header("location:account.php");
+                exit();
+            }
+        } else {
+            // Password is already using Argon2id
+            if (password_verify($password, $row['password'])) {
+                // Clear login attempts
+                unset($attempts[$ip]);
+                file_put_contents($attempts_file, json_encode($attempts));
+                
+                // Set user session variables
+                $_SESSION["name"] = $row['name'];
+                $_SESSION["email"] = $email;
+                $_SESSION["last_activity"] = time();
+                $_SESSION["ip"] = $ip;
+                $_SESSION["user_agent"] = $_SERVER['HTTP_USER_AGENT'];
+                
+                // Generate CSRF token
+                $_SESSION["csrf_token"] = generateToken();
+                
+                // Regenerate session ID
+                session_regenerate_id(true);
+                
+                // Log successful user login
+                logSecurityEvent('USER_LOGIN', "User login successful: $email from IP: $ip");
+                
+                header("location:account.php");
+                exit();
+            }
         }
     }
     
