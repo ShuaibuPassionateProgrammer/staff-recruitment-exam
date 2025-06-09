@@ -99,3 +99,8 @@ Stack trace:
 #1 [internal function]: closeDbConnection()
 #2 {main}
   thrown in C:\xampp\htdocs\exams\exams001\dbConnection.php on line 34
+[09-Jun-2025 14:17:34 Europe/Berlin] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in C:\xampp\htdocs\exams\exams001\admin.php on line 35
+[09-Jun-2025 14:17:34 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined function verifySession() in C:\xampp\htdocs\exams\exams001\account.php:6
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\exams\exams001\account.php on line 6
