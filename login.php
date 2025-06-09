@@ -1,7 +1,9 @@
 <?php
     session_start();
     if(isset($_SESSION["email"])){
+        session_unset();
         session_destroy();
+        session_start();
     }
     include_once 'dbConnection.php';
     $ref=@$_GET['q'];
@@ -13,6 +15,8 @@
     $password = stripslashes($password); 
     $password = addslashes($password);
     $password=md5($password); 
+
+    // Use explicit column names for clarity
     $result = mysqli_query($con,"SELECT name FROM user WHERE email = '$email' and password = '$password'") or die('Error');
     $count=mysqli_num_rows($result);
     if($count==1){
@@ -25,6 +29,4 @@
     }
     else
         header("location:$ref?w=Wrong Username or Password");
-
-
 ?>
