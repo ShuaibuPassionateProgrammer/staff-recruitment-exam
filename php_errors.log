@@ -59,3 +59,4 @@
 [09-Jun-2025 13:26:14 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\exams\exams001\admin_middleware.php on line 30
 [09-Jun-2025 13:26:14 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in C:\xampp\htdocs\exams\exams001\dash.php on line 341
 [09-Jun-2025 13:26:14 Europe/Berlin] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in C:\xampp\htdocs\exams\exams001\admin_middleware.php on line 30
+[09-Jun-2025 13:46:44 Europe/Berlin] PHP Notice:  session_start(): Ignoring session_start() because a session is already active in C:\xampp\htdocs\exams\exams001\admin.php on line 35
