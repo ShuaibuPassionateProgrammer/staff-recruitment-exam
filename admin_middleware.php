@@ -1,10 +1,16 @@
 <?php
 session_start();
 
+// Include session handler
+require_once 'session_handler.php';
+
 // Function to verify admin session
 function verifyAdminSession() {
+    // Check admin authentication
+    checkAdminAuth();
+    
     if(!isset($_SESSION['admin']) || !$_SESSION['admin']) {
-        header("location:admin.php");
+        header("location:login.php");
         exit();
     }
 }
@@ -69,6 +75,9 @@ header('X-XSS-Protection: 1; mode=block');
 header('X-Content-Type-Options: nosniff');
 header('Referrer-Policy: same-origin');
 header('Content-Security-Policy: default-src \'self\' https: \'unsafe-inline\' \'unsafe-eval\'');
+
+// Prevent caching
+preventCaching();
 
 // Set secure cookie parameters if HTTPS
 if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') {
