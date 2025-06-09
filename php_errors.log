@@ -68,3 +68,5 @@ Stack trace:
 #0 C:\xampp\htdocs\exams\exams001\dash.php(3): include_once()
 #1 {main}
   thrown in C:\xampp\htdocs\exams\exams001\admin_middleware.php on line 80
+[09-Jun-2025 13:59:05 Europe/Berlin] Database Error: Unknown database 'project'
+[09-Jun-2025 13:59:54 Europe/Berlin] Database Error: Unknown database 'project'
