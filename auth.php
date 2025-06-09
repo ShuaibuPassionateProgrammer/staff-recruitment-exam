@@ -18,21 +18,64 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit();
 }
 
+// Rate limiting
+$ip = $_SERVER['REMOTE_ADDR'];
+$timestamp = time();
+$attempts_file = 'login_attempts.json';
+
+// Load existing attempts
+$attempts = [];
+if (file_exists($attempts_file)) {
+    $attempts = json_decode(file_get_contents($attempts_file), true) ?? [];
+}
+
+// Clean up old attempts (older than 1 hour)
+$attempts = array_filter($attempts, function($attempt) use ($timestamp) {
+    return ($timestamp - $attempt['time']) < 3600;
+});
+
+// Check if IP is blocked
+if (isset($attempts[$ip])) {
+    if ($attempts[$ip]['count'] >= 5) {
+        $block_time = $attempts[$ip]['time'] + 3600 - $timestamp;
+        if ($block_time > 0) {
+            header("location:login.php?w=" . urlencode("Too many login attempts. Please try again in " . ceil($block_time/60) . " minutes."));
+            exit();
+        } else {
+            unset($attempts[$ip]);
+        }
+    }
+}
+
 // Get and sanitize inputs
 $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
 $password = $_POST['password'] ?? '';
 
 // Validate email
-if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+if (!validateEmail($email)) {
+    // Record failed attempt
+    $attempts[$ip] = [
+        'time' => $timestamp,
+        'count' => ($attempts[$ip]['count'] ?? 0) + 1
+    ];
+    file_put_contents($attempts_file, json_encode($attempts));
+    
     header("location:login.php?w=" . urlencode("Invalid email format"));
     exit();
 }
 
 try {
     // First check if it's an admin
-    $stmt = $con->prepare("SELECT password FROM admin WHERE email = ?");
+    $stmt = $con->prepare("SELECT password FROM admin WHERE email = ? LIMIT 1");
+    if (!$stmt) {
+        throw new Exception("Database error: " . $con->error);
+    }
+    
     $stmt->bind_param("s", $email);
-    $stmt->execute();
+    if (!$stmt->execute()) {
+        throw new Exception("Execution error: " . $stmt->error);
+    }
+    
     $result = $stmt->get_result();
     
     if ($result->num_rows === 1) {
@@ -40,13 +83,25 @@ try {
         
         // Verify admin password
         if (password_verify($password, $row['password'])) {
+            // Clear login attempts
+            unset($attempts[$ip]);
+            file_put_contents($attempts_file, json_encode($attempts));
+            
             // Set admin session variables
             $_SESSION["email"] = $email;
             $_SESSION["admin"] = true;
             $_SESSION["last_activity"] = time();
+            $_SESSION["ip"] = $ip;
+            $_SESSION["user_agent"] = $_SERVER['HTTP_USER_AGENT'];
+            
+            // Generate CSRF token
+            $_SESSION["csrf_token"] = generateToken();
             
             // Regenerate session ID
             session_regenerate_id(true);
+            
+            // Log successful admin login
+            error_log("Admin login successful: $email from IP: $ip");
             
             header("location:dash.php");
             exit();
@@ -54,9 +109,16 @@ try {
     }
     
     // If not admin, check regular user
-    $stmt = $con->prepare("SELECT name, password FROM user WHERE email = ?");
+    $stmt = $con->prepare("SELECT name, password FROM user WHERE email = ? LIMIT 1");
+    if (!$stmt) {
+        throw new Exception("Database error: " . $con->error);
+    }
+    
     $stmt->bind_param("s", $email);
-    $stmt->execute();
+    if (!$stmt->execute()) {
+        throw new Exception("Execution error: " . $stmt->error);
+    }
+    
     $result = $stmt->get_result();
     
     if ($result->num_rows === 1) {
@@ -64,18 +126,37 @@ try {
         
         // Verify user password (using MD5 for compatibility)
         if (md5($password) === $row['password']) {
+            // Clear login attempts
+            unset($attempts[$ip]);
+            file_put_contents($attempts_file, json_encode($attempts));
+            
             // Set user session variables
             $_SESSION["name"] = $row['name'];
             $_SESSION["email"] = $email;
             $_SESSION["last_activity"] = time();
+            $_SESSION["ip"] = $ip;
+            $_SESSION["user_agent"] = $_SERVER['HTTP_USER_AGENT'];
+            
+            // Generate CSRF token
+            $_SESSION["csrf_token"] = generateToken();
             
             // Regenerate session ID
             session_regenerate_id(true);
+            
+            // Log successful user login
+            error_log("User login successful: $email from IP: $ip");
             
             header("location:account.php");
             exit();
         }
     }
+    
+    // Record failed attempt
+    $attempts[$ip] = [
+        'time' => $timestamp,
+        'count' => ($attempts[$ip]['count'] ?? 0) + 1
+    ];
+    file_put_contents($attempts_file, json_encode($attempts));
     
     // Invalid credentials
     header("location:login.php?w=" . urlencode("Invalid email or password"));
