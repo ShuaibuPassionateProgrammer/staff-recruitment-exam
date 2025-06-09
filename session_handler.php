@@ -3,7 +3,11 @@
 // These must be set before session_start()
 ini_set('session.cookie_httponly', 1);
 ini_set('session.use_only_cookies', 1);
-ini_set('session.cookie_secure', 1);
+
+// Only set secure cookie if HTTPS is being used
+if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') {
+    ini_set('session.cookie_secure', 1);
+}
 
 // Start session if not already started
 if (session_status() === PHP_SESSION_NONE) {
