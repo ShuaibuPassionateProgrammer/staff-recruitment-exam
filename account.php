@@ -1,3 +1,13 @@
+<?php
+include_once 'session_handler.php';
+include_once 'dbConnection.php';
+
+// Verify user session
+verifySession();
+
+$name = $_SESSION['name'];
+$email = $_SESSION['email'];
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -152,13 +162,13 @@
         }
     </style>
 
-    <?php if(@$_GET['w'])
-    {echo'<script>alert("'.@$_GET['w'].'");</script>';}
+    <?php
+    if(isset($_GET['w'])) {
+        $warning = htmlspecialchars($_GET['w'], ENT_QUOTES, 'UTF-8');
+        echo '<script>alert("'.$warning.'");</script>';
+    }
     ?>
 </head>
-<?php
-    include_once 'dbConnection.php';
-?>
 <body>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark">
@@ -170,25 +180,16 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto align-items-center">
                     <?php
-                        include_once 'dbConnection.php';
-                        session_start();
-                        if(!(isset($_SESSION['email']))){
-                            header("location:index.php");
-                            exit();
-                        } else {
-                            $name = $_SESSION['name'];
-                            $email = $_SESSION['email'];
-                            echo '<li class="nav-item">
-                                    <span class="user-welcome me-3">
-                                        <i class="fas fa-user me-2"></i>Hello, '.$name.'
-                                    </span>
-                                  </li>
-                                  <li class="nav-item">
-                                    <a href="logout.php?q=account.php" class="btn btn-light">
-                                        <i class="fas fa-sign-out-alt me-2"></i>Sign out
-                                    </a>
-                                  </li>';
-                        //}
+                        echo '<li class="nav-item">
+                                <span class="user-welcome me-3">
+                                    <i class="fas fa-user me-2"></i>Hello, '.$name.'
+                                </span>
+                              </li>
+                              <li class="nav-item">
+                                <a href="logout.php?q=account.php" class="btn btn-light">
+                                    <i class="fas fa-sign-out-alt me-2"></i>Sign out
+                                </a>
+                              </li>';
                     ?>
                 </ul>
             </div>
@@ -467,7 +468,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="text-center">
-                        <img src="image/CAM00121" class="rounded-circle mb-3" alt="Developer" style="width: 150px; height: 150px; object-fit: cover;">
+                        <img src="image/CAM00121.jpg" class="rounded-circle mb-3" alt="Developer" style="width: 150px; height: 150px; object-fit: cover;">
                         <h5 class="mb-3">Adams Muhammad Kabir</h5>
                         <p class="mb-2"><i class="fas fa-phone me-2"></i>07089599250</p>
                         <p class="mb-2"><i class="fas fa-envelope me-2"></i>kabiradam4real@gmail.com</p>
