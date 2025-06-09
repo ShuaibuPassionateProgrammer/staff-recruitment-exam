@@ -31,11 +31,11 @@ $(function () {
 });</script>
 </head>
 
-<body  style="background:#eee;">
-<div class="header">
-<div class="row">
+<body  style="background:#f8f9fa;">
+<div class="header" style="box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+<div class="row" style="padding: 10px 0;">
 <div class="col-lg-6">
-<span class="logo" style="margin-bottom: 20px;">Welcome to Online Exam Admin</span>
+<span class="logo" style="margin-bottom: 20px;">Welcome to <span style="color:#337ab7;">Online Exam Admin</span></span>
     <?php
         include_once 'dbConnection.php';
         session_start();
@@ -57,7 +57,7 @@ $(function () {
 <!-- admin start-->
 
 <!--navigation menu-->
-<nav class="navbar navbar-default title1" style="margin-top: 40px;">
+<nav class="navbar navbar-default title1" style="margin-top: 40px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
@@ -67,20 +67,20 @@ $(function () {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="dash.php?q=0"><b>Staff Recruitment Online Examination System</b></a>
+      <a class="navbar-brand" href="dash.php?q=0" style="font-weight:bold; color:#337ab7;"><b>Staff Recruitment Online Examination System</b></a>
     </div>
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li <?php if(@$_GET['q']==0) echo'class="active"'; ?>><a href="dash.php?q=0">Home<span class="sr-only">(current)</span></a></li>
-        <li <?php if(@$_GET['q']==1) echo'class="active"'; ?>><a href="dash.php?q=1">Candidate</a></li>
-		<li <?php if(@$_GET['q']==2) echo'class="active"'; ?>><a href="dash.php?q=2">Ranking</a></li>
-		<li <?php if(@$_GET['q']==3) echo'class="active"'; ?>><a href="dash.php?q=3">Feedback</a></li>
+        <li <?php if(@$_GET['q']==0) echo'class="active"'; ?>><a href="dash.php?q=0"><span class="glyphicon glyphicon-dashboard"></span> Home<span class="sr-only">(current)</span></a></li>
+        <li <?php if(@$_GET['q']==1) echo'class="active"'; ?>><a href="dash.php?q=1"><span class="glyphicon glyphicon-user"></span> Candidate</a></li>
+		<li <?php if(@$_GET['q']==2) echo'class="active"'; ?>><a href="dash.php?q=2"><span class="glyphicon glyphicon-signal"></span> Ranking</a></li>
+		<li <?php if(@$_GET['q']==3) echo'class="active"'; ?>><a href="dash.php?q=3"><span class="glyphicon glyphicon-comment"></span> Feedback</a></li>
         <li class="dropdown <?php if(@$_GET['q']==4 || @$_GET['q']==5) echo'active"'; ?>">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Exams<span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-list"></span> Exams <span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="dash.php?q=4">Add Exams</a></li>
-            <li><a href="dash.php?q=5">Remove Exams</a></li>
+            <li><a href="dash.php?q=4"><span class="glyphicon glyphicon-plus"></span> Add Exams</a></li>
+            <li><a href="dash.php?q=5"><span class="glyphicon glyphicon-trash"></span> Remove Exams</a></li>
           </ul>
         </li>
       </ul>
@@ -88,7 +88,7 @@ $(function () {
   </div><!-- /.container-fluid -->
 </nav>
 <!--navigation menu closed-->
-<div class="container"><!--container start-->
+<div class="container" style="margin-top: 20px;"><!--container start-->
 <div class="row">
 <div class="col-md-12">
 <!--home start-->
@@ -96,7 +96,7 @@ $(function () {
 <?php if(@$_GET['q']==0) {
 
 $result = mysqli_query($con,"SELECT * FROM quiz ORDER BY date DESC") or die('Error');
-echo  '<div class="panel"><table class="table table-striped title1">
+echo  '<div class="panel panel-default" style="border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.04);"><table class="table table-hover table-striped title1" style="background:#fff; border-radius:8px;">
 <tr><td><b>S.N.</b></td><td><b>Topic</b></td><td><b>Total question</b></td><td><b>Marks</b></td><td><b>Time limit</b></td><td></td></tr>';
 $c=1;
 while($row = mysqli_fetch_array($result)) {
