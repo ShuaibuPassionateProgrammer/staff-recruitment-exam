@@ -1,41 +1,100 @@
 <?php
     include_once 'dbConnection.php';
+    include_once 'security.php';
     ob_start();
-    $name = $_POST['name'];
-    $name= ucwords(strtolower($name));
-    $gender = $_POST['gender'];
-    $email = $_POST['email'];
-    $college = $_POST['college'];
-    $mob = $_POST['mob'];
-    $password = $_POST['password'];
-    $name = stripslashes($name);
-    $name = addslashes($name);
+
+    // Verify that the request is POST
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        header("Location: index.php");
+        exit();
+    }
+
+    // Get and sanitize inputs
+    $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
+    $gender = filter_input(INPUT_POST, 'gender', FILTER_SANITIZE_STRING);
+    $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
+    $college = filter_input(INPUT_POST, 'college', FILTER_SANITIZE_STRING);
+    $mob = filter_input(INPUT_POST, 'mob', FILTER_SANITIZE_STRING);
+    $password = $_POST['password'] ?? '';
+
+    // Input validation
+    if (empty($name) || empty($gender) || empty($email) || empty($college) || empty($mob) || empty($password)) {
+        header("Location: index.php?q7=" . urlencode("All fields are required!"));
+        exit();
+    }
+
+    // Validate email
+    if (!validateEmail($email)) {
+        header("Location: index.php?q7=" . urlencode("Invalid email format!"));
+        exit();
+    }
+
+    // Validate password strength
+    if (!verifyPasswordStrength($password)) {
+        header("Location: index.php?q7=" . urlencode("Password must be at least 8 characters long and contain uppercase, lowercase, number, and special character!"));
+        exit();
+    }
+
+    // Validate mobile number (assuming 10-15 digits)
+    if (!preg_match('/^[0-9]{10,15}$/', $mob)) {
+        header("Location: index.php?q7=" . urlencode("Invalid mobile number!"));
+        exit();
+    }
+
+    // Format name (capitalize first letter of each word)
     $name = ucwords(strtolower($name));
-    $gender = stripslashes($gender);
-    $gender = addslashes($gender);
-    $email = stripslashes($email);
-    $email = addslashes($email);
-    $college = stripslashes($college);
-    $college = addslashes($college);
-    $mob = stripslashes($mob);
-    $mob = addslashes($mob);
 
-    $password = stripslashes($password);
-    $password = addslashes($password);
-    $password = md5($password);
-
-    $q3=mysqli_query($con,"INSERT INTO user VALUES  ('$name' , '$gender' , '$college','$email' ,'$mob', '$password')");
-    if($q3)
-    {
-        session_start();
-        $_SESSION["email"] = $email;
-        $_SESSION["name"] = $name;
-
-        header("location:account.php?q=1");
+    try {
+        // Check if email already exists
+        $stmt = $con->prepare("SELECT email FROM user WHERE email = ?");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        
+        if ($stmt->get_result()->num_rows > 0) {
+            header("Location: index.php?q7=" . urlencode("Email Already Registered!"));
+            exit();
+        }
+        
+        // Hash password using Argon2id
+        $hashed_password = generatePasswordHash($password);
+        
+        // Insert new user
+        $stmt = $con->prepare("INSERT INTO user (name, gender, college, email, mob, password) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("ssssss", $name, $gender, $college, $email, $mob, $hashed_password);
+        
+        if ($stmt->execute()) {
+            // Start secure session
+            secureSessionStart();
+            $_SESSION["email"] = $email;
+            $_SESSION["name"] = $name;
+            $_SESSION["last_activity"] = time();
+            $_SESSION["ip"] = $_SERVER['REMOTE_ADDR'];
+            $_SESSION["user_agent"] = $_SERVER['HTTP_USER_AGENT'];
+            
+            // Generate CSRF token
+            $_SESSION["csrf_token"] = generateToken();
+            
+            // Regenerate session ID to prevent session fixation
+            session_regenerate_id(true);
+            
+            // Log successful registration
+            logSecurityEvent('USER_REGISTER', "New user registered: $email");
+            
+            header("Location: account.php?q=1");
+            exit();
+        } else {
+            throw new Exception("Error creating user account");
+        }
+        
+    } catch (Exception $e) {
+        error_log("Signup error: " . $e->getMessage());
+        header("Location: index.php?q7=" . urlencode("An error occurred. Please try again later."));
+        exit();
+    } finally {
+        if (isset($stmt)) {
+            $stmt->close();
+        }
     }
-    else
-    {
-        header("location:index.php?q7=Email Already Registered!!!");
-    }
+
     ob_end_flush();
 ?>
