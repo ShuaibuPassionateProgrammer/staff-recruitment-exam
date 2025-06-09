@@ -1,6 +1,7 @@
 <?php
 require_once 'session_handler.php';
 require_once 'dbConnection.php';
+require_once 'security.php';
 
 // Check if user is already logged in
 if(isset($_SESSION['email'])) {
@@ -78,7 +79,7 @@ try {
     
     $result = $stmt->get_result();
     
-    if ($result->num_rows === 1) {
+    if ($result && $result->num_rows === 1) {
         $row = $result->fetch_assoc();
         
         // Verify admin password
@@ -101,7 +102,7 @@ try {
             session_regenerate_id(true);
             
             // Log successful admin login
-            error_log("Admin login successful: $email from IP: $ip");
+            logSecurityEvent('ADMIN_LOGIN', "Admin login successful: $email from IP: $ip");
             
             header("location:dash.php");
             exit();
@@ -121,7 +122,7 @@ try {
     
     $result = $stmt->get_result();
     
-    if ($result->num_rows === 1) {
+    if ($result && $result->num_rows === 1) {
         $row = $result->fetch_assoc();
         
         // Verify user password (using MD5 for compatibility)
@@ -144,7 +145,7 @@ try {
             session_regenerate_id(true);
             
             // Log successful user login
-            error_log("User login successful: $email from IP: $ip");
+            logSecurityEvent('USER_LOGIN', "User login successful: $email from IP: $ip");
             
             header("location:account.php");
             exit();
@@ -163,8 +164,14 @@ try {
     exit();
     
 } catch (Exception $e) {
+    // Log the error
     error_log("Login error: " . $e->getMessage());
-    header("location:login.php?w=" . urlencode("An error occurred. Please try again later."));
+    
+    if (DEV_MODE) {
+        header("location:login.php?w=" . urlencode("Error: " . $e->getMessage()));
+    } else {
+        header("location:login.php?w=" . urlencode("An error occurred. Please try again later."));
+    }
     exit();
 } finally {
     if (isset($stmt)) {
