@@ -70,3 +70,32 @@ Stack trace:
   thrown in C:\xampp\htdocs\exams\exams001\admin_middleware.php on line 80
 [09-Jun-2025 13:59:05 Europe/Berlin] Database Error: Unknown database 'project'
 [09-Jun-2025 13:59:54 Europe/Berlin] Database Error: Unknown database 'project'
+[09-Jun-2025 12:06:09 UTC] Database Error: Unknown database 'project'
+[09-Jun-2025 12:08:12 UTC] PHP Fatal error:  Uncaught Error: Undefined constant "DEV_MODE" in C:\xampp\htdocs\exams\exams001\check_database.php:6
+Stack trace:
+#0 C:\xampp\htdocs\exams\exams001\create_database.php(26): require_once()
+#1 {main}
+  thrown in C:\xampp\htdocs\exams\exams001\check_database.php on line 6
+[09-Jun-2025 12:08:12 UTC] PHP Fatal error:  Uncaught Error: mysqli object is already closed in C:\xampp\htdocs\exams\exams001\dbConnection.php:39
+Stack trace:
+#0 C:\xampp\htdocs\exams\exams001\dbConnection.php(39): mysqli->close()
+#1 [internal function]: closeDbConnection()
+#2 {main}
+  thrown in C:\xampp\htdocs\exams\exams001\dbConnection.php on line 39
+[09-Jun-2025 12:09:09 UTC] PHP Fatal error:  Uncaught Error: Undefined constant "DEV_MODE" in C:\xampp\htdocs\exams\exams001\check_database.php:6
+Stack trace:
+#0 C:\xampp\htdocs\exams\exams001\create_database.php(26): require_once()
+#1 {main}
+  thrown in C:\xampp\htdocs\exams\exams001\check_database.php on line 6
+[09-Jun-2025 12:09:09 UTC] PHP Fatal error:  Uncaught Error: mysqli object is already closed in C:\xampp\htdocs\exams\exams001\dbConnection.php:39
+Stack trace:
+#0 C:\xampp\htdocs\exams\exams001\dbConnection.php(39): mysqli->close()
+#1 [internal function]: closeDbConnection()
+#2 {main}
+  thrown in C:\xampp\htdocs\exams\exams001\dbConnection.php on line 39
+[09-Jun-2025 12:10:51 UTC] PHP Fatal error:  Uncaught Error: mysqli object is already closed in C:\xampp\htdocs\exams\exams001\dbConnection.php:34
+Stack trace:
+#0 C:\xampp\htdocs\exams\exams001\dbConnection.php(34): mysqli->close()
+#1 [internal function]: closeDbConnection()
+#2 {main}
+  thrown in C:\xampp\htdocs\exams\exams001\dbConnection.php on line 34
