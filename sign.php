@@ -1,5 +1,6 @@
 <?php
     include_once 'dbConnection.php';
+    include_once 'security.php';
     ob_start();
 
     // Verify that the request is POST
@@ -23,8 +24,14 @@
     }
 
     // Validate email
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    if (!validateEmail($email)) {
         header("Location: index.php?q7=" . urlencode("Invalid email format!"));
+        exit();
+    }
+
+    // Validate password strength
+    if (!verifyPasswordStrength($password)) {
+        header("Location: index.php?q7=" . urlencode("Password must be at least 8 characters long and contain uppercase, lowercase, number, and special character!"));
         exit();
     }
 
@@ -48,22 +55,30 @@
             exit();
         }
         
-        // Hash password (Note: MD5 is kept for compatibility, but should be upgraded)
-        $hashed_password = md5($password);
+        // Hash password using Argon2id
+        $hashed_password = generatePasswordHash($password);
         
         // Insert new user
         $stmt = $con->prepare("INSERT INTO user (name, gender, college, email, mob, password) VALUES (?, ?, ?, ?, ?, ?)");
         $stmt->bind_param("ssssss", $name, $gender, $college, $email, $mob, $hashed_password);
         
         if ($stmt->execute()) {
-            // Start session
-            session_start();
+            // Start secure session
+            secureSessionStart();
             $_SESSION["email"] = $email;
             $_SESSION["name"] = $name;
             $_SESSION["last_activity"] = time();
+            $_SESSION["ip"] = $_SERVER['REMOTE_ADDR'];
+            $_SESSION["user_agent"] = $_SERVER['HTTP_USER_AGENT'];
+            
+            // Generate CSRF token
+            $_SESSION["csrf_token"] = generateToken();
             
             // Regenerate session ID to prevent session fixation
             session_regenerate_id(true);
+            
+            // Log successful registration
+            logSecurityEvent('USER_REGISTER', "New user registered: $email");
             
             header("Location: account.php?q=1");
             exit();
