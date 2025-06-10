@@ -1,16 +1,24 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Admin Login</title>
-</head>
-<body>
-    <h2>Admin Login</h2>
-    <form method="POST" action="adminlogin.php">
-        <label>Email:</label>
-        <input type="email" name="email" required><br><br>
-        <label>Password:</label>
-        <input type="password" name="password" required><br><br>
-        <button type="submit">Login</button>
-    </form>
-</body>
-</html>
+<?php
+    include_once 'dbConnection.php';
+    $ref=@$_GET['q'];
+    $email = $_POST['uname'];
+    $password = $_POST['password'];
+
+    $email = stripslashes($email);
+    $email = addslashes($email);
+    $password = stripslashes($password);
+    $password = md5($password);
+    $password = addslashes($password);
+    $result = mysqli_query($con,"SELECT email FROM admin WHERE email = '$email' and password = '$password'") or die('Error');
+    $count=mysqli_num_rows($result);
+    if($count==1){
+    session_start();
+    if(isset($_SESSION['email'])){
+    session_unset();}
+    $_SESSION["name"] = 'Admin';
+    $_SESSION["key"] ='sunny7785068889';
+    $_SESSION["email"] = $email;
+    header("location:dash.php?q=0");
+    }
+    else header("location:$ref?w=Warning : Access denied");
+?>
