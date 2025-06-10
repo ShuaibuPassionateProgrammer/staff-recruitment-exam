@@ -23,11 +23,11 @@
 <?php
     include_once 'dbConnection.php';
 ?>
-<body style="background:#f8f9fa;">
-<div class="header" style="box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
-    <div class="row" style="padding: 10px 0;">
+<body>
+<div class="header">
+    <div class="row">
         <div class="col-lg-6">
-            <span class="logo">Online <span style="color:#337ab7;">Examination System</span></span></div>
+            <span class="logo">Online Examination System</span></div>
             <div class="col-md-4 col-md-offset-2">
                 <?php
                     include_once 'dbConnection.php';
@@ -47,9 +47,10 @@
             </div>
         </div>
     </div>
-    <div class="bg" style="background:#fff; border-radius:8px; margin-top:20px;">
+    <div class="bg">
+
 <!--navigation menu-->
-<nav class="navbar navbar-default title1" style="margin-top: 20px; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.04);">
+<nav class="navbar navbar-default title1" style="margin-top: 20px;">
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
@@ -59,17 +60,16 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#"><b style="color:#337ab7;">Online Staff Recruitment System</b></a>
+      <a class="navbar-brand" href="#"><b>Online Staff Recruitment System</b></a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li <?php if(@$_GET['q']==1) echo'class="active"'; ?> ><a href="account.php?q=1"><span class="glyphicon glyphicon-home"></span>&nbsp;Home<span class="sr-only">(current)</span></a></li>
-        <li <?php if(@$_GET['q']==2) echo'class="active"'; ?>><a href="account.php?q=2"><span class="glyphicon glyphicon-list-alt"></span>&nbsp;History</a></li>
-		<li <?php if(@$_GET['q']==3) echo'class="active"'; ?>><a href="account.php?q=3"><span class="glyphicon glyphicon-stats"></span>&nbsp;My Scores</a></li>
-      </ul>
-      <form class="navbar-form navbar-left" role="search">
+        <li <?php if(@$_GET['q']==1) echo'class="active"'; ?> ><a href="account.php?q=1"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>&nbsp;Home<span class="sr-only">(current)</span></a></li>
+        <li <?php if(@$_GET['q']==2) echo'class="active"'; ?>><a href="account.php?q=2"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>&nbsp;History</a></li>
+		<li <?php if(@$_GET['q']==3) echo'class="active"'; ?>><a href="account.php?q=3"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span>&nbsp;My Scores</a></li></ul>
+            <form class="navbar-form navbar-left" role="search">
         <div class="form-group">
           <input type="text" class="form-control" placeholder="Enter tag ">
         </div>
@@ -78,7 +78,7 @@
       </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav><!--navigation menu closed-->
-<div class="container" style="margin-top: 20px;"><!--container start-->
+<div class="container"><!--container start-->
 <div class="row">
 <div class="col-md-12">
 
@@ -86,7 +86,7 @@
 <?php if(@$_GET['q']==1) {
 
 $result = mysqli_query($con,"SELECT * FROM quiz ORDER BY date DESC") or die('Error');
-echo  '<div class="panel panel-default" style="border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.04);"><table class="table table-hover table-striped title1" style="background:#fff; border-radius:8px;">
+echo  '<div class="panel"><table class="table table-striped title1">
 <tr><td><b>S.N.</b></td><td><b>Topic</b></td><td><b>Total question</b></td><td><b>Marks</b></td><td><b>Time limit</b></td><td></td></tr>';
 $c=1;
 while($row = mysqli_fetch_array($result)) {
@@ -243,7 +243,7 @@ echo '</table></div>';}
 
 </div></div></div></div>
 <!--Footer start-->
-<div class="row footer" style="margin-top:40px; border-radius:0 0 8px 8px;">
+<div class="row footer">
 <div class="col-md-3 box">
 <a href="http://www.netcamp.in" target="_blank">About us</a>
 </div>
