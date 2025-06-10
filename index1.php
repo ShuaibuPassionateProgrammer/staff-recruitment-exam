@@ -198,9 +198,9 @@ var b = document.forms["form"]["cpassword"].value;if (a!=b){alert("Passwords mus
 		 <img src="image/logo.jpg" width=200 height=200 alt="" class="img-rounded">
 		 </div>
 		 <div class="col-md-5" style="margin-left:10px">
-		<a href="logo-DGT.jpg" style="color:#202020; font-family:'typo' ; font-size:18px" title="Find on Facebook">Name: Yunusa Habu </a>
-		<h4 style="color:#202020; font-family:'typo' ;font-size:16px" class="title1">Tel: 09066371373</h4>
-		<h4 style="font-family:'typo' ">Email: yunusahabu2207@gmail.com</h4>
+		<a href="logo-DGT.jpg" style="color:#202020; font-family:'typo' ; font-size:18px" title="Find on Facebook">Name: Adamu Muhammad </a>
+		<h4 style="color:#202020; font-family:'typo' ;font-size:16px" class="title1">Tel: 08147610182</h4>
+		<h4 style="font-family:'typo' ">Email: sweeadam4u@gmail.com</h4>
 		<h4 style="font-family:'typo' ">Ocupation: Student</h4></div></div>
 		</p>
       </div>
