@@ -1,32 +1,30 @@
 <?php
-session_start();
-include_once 'dbConnection.php';
-
-if (isset($_POST['email']) && isset($_POST['password'])) {
+    session_start();
+    if(isset($_SESSION["email"])){
+        session_destroy();
+    }
+    include_once 'dbConnection.php';
+    $ref=@$_GET['q'];
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    // Fetch hashed password from user table
-    $query = "SELECT * FROM user WHERE email = ?";
-    $stmt = $con->prepare($query);
-    $stmt->bind_param("s", $email);
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    if ($row = $result->fetch_assoc()) {
-        if (password_verify($password, $row['password'])) {
-            $_SESSION["email"] = $email;
-            $_SESSION["name"] = $row['name'];
-            $_SESSION["college"] = $row['college'];
-            header("location:account.php?q=1");
-            exit();
-        } else {
-            header("location:index.php?w=Wrong Password");
-            exit();
+    $email = stripslashes($email);
+    $email = addslashes($email);
+    $password = stripslashes($password); 
+    $password = addslashes($password);
+    $password=md5($password); 
+    $result = mysqli_query($con,"SELECT name FROM user WHERE email = '$email' and password = '$password'") or die('Error');
+    $count=mysqli_num_rows($result);
+    if($count==1){
+        while($row = mysqli_fetch_array($result)) {
+            $name = $row['name'];
         }
-    } else {
-        header("location:index.php?w=No such user");
-        exit();
+        $_SESSION["name"] = $name;
+        $_SESSION["email"] = $email;
+        header("location:account.php?q=1");
     }
-}
+    else
+        header("location:$ref?w=Wrong Username or Password");
+
+
 ?>
