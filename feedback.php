@@ -19,11 +19,12 @@
 
 </head>
 
-<body style="background:#f8f9fa;">
+<body>
+
 <!--header start-->
-<div class="row header" style="box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+<div class="row header">
 <div class="col-lg-6">
-<span class="logo">Online <span style="color:#337ab7;">Examination System</span></span></div>
+<span class="logo">Online Examination System</span></div>
 <div class="col-md-2">
 </div>
 <div class="col-md-4">
@@ -43,12 +44,12 @@ echo '<a href="logout.php?q=feedback.php" class="pull-right sub1 btn title3"><sp
 <!--sign in modal start-->
 <div class="modal fade" id="myModal">
   <div class="modal-dialog">
-    <div class="modal-content title1" style="border-radius:8px;">
-      <div class="modal-header" style="background:#337ab7; color:#fff; border-radius:8px 8px 0 0;">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color:#fff;"><span aria-hidden="true">&times;</span></button>
+    <div class="modal-content title1">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title title1"><span style="color:orange">Log In</span></h4>
       </div>
-      <div class="modal-body" style="background:#f8f9fa;">
+      <div class="modal-body">
         <form class="form-horizontal" action="login.php?q=index.php" method="POST">
 <fieldset>
 
@@ -72,7 +73,7 @@ echo '<a href="logout.php?q=feedback.php" class="pull-right sub1 btn title3"><sp
 </div>
 
       </div>
-      <div class="modal-footer" style="background:#f8f9fa; border-radius:0 0 8px 8px;">
+      <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         <button type="submit" class="btn btn-primary">Log in</button>
 		</fieldset>
@@ -88,8 +89,8 @@ echo '<a href="logout.php?q=feedback.php" class="pull-right sub1 btn title3"><sp
 <div class="bg1">
 <div class="row">
 <div class="col-md-3"></div>
-<div class="col-md-6 panel" style="background:#fff; border-radius:8px; min-height:430px; box-shadow:0 2px 8px rgba(0,0,0,0.04); padding: 30px 20px;">
-<h2 align="center" style="font-family:'typo'; color:#337ab7; margin-bottom:20px;">FEEDBACK/REPORT A PROBLEM</h2>
+<div class="col-md-6 panel" style="background-image:url(image/bg1.jpg); min-height:430px;">
+<h2 align="center" style="font-family:'typo'; color:#000066">FEEDBACK/REPORT A PROBLEM</h2>
 <div style="font-size:14px">
 <?php if(@$_GET['q'])echo '<span style="font-size:18px;"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span>&nbsp;'.@$_GET['q'].'</span>';
 else
@@ -128,7 +129,7 @@ You can send us your feedback through e-mail on the following e-mail id:<br />
 <textarea rows="5" cols="8" name="feedback" class="form-control" placeholder="Write feedback here..."></textarea>
 </div>
 <div class="form-group" align="center">
-<input type="submit" name="submit" value="Submit" class="btn btn-primary" style="border-radius:4px; width:120px;" />
+<input type="submit" name="submit" value="Submit" class="btn btn-primary" />
 </div>
 </form>';}?>
 </div><!--col-md-6 end-->
@@ -138,7 +139,7 @@ You can send us your feedback through e-mail on the following e-mail id:<br />
 
 
 <!--Footer start-->
-<div class="row footer" style="margin-top:40px; border-radius:0 0 8px 8px;">
+<div class="row footer">
 <div class="col-md-3 box">
 <a href="http://www.netcamp.in" target="_blank">About us</a>
 </div>
