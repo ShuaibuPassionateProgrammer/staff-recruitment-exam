@@ -1,11 +1,3 @@
-<?php
-session_start();
-if (isset($_SESSION['admin'])) {
-    header("location:dashboard.php");
-    exit();
-}
-?>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,10 +5,12 @@ if (isset($_SESSION['admin'])) {
 </head>
 <body>
     <h2>Admin Login</h2>
-    <form method="post" action="admin_login.php">
-        <input type="email" name="email" placeholder="Enter email" required><br>
-        <input type="password" name="password" placeholder="Enter password" required><br>
-        <input type="submit" value="Login">
+    <form method="POST" action="adminlogin.php">
+        <label>Email:</label>
+        <input type="email" name="email" required><br><br>
+        <label>Password:</label>
+        <input type="password" name="password" required><br><br>
+        <button type="submit">Login</button>
     </form>
 </body>
 </html>
