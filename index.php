@@ -29,16 +29,16 @@ var b = document.forms["form"]["cpassword"].value;if (a!=b){alert("Passwords mus
 
 
 </head>
-<body id="bg" style="background: linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)), url(./image/bg.jpg) no-repeat center center fixed; background-size:cover;">
-<div class="container" style="margin-top: 10vh;">
+<body id="bg">
+<div class="container">
   <div class="row justify-content-center">
-    <h1 style="color: #fff; font-weight: bold; text-align: center; text-shadow: 1px 2px 8px #000;">Welcome to <span style="color:#ffbb33;">Staff Recruitment Online Examination System</span></h1>
+    <h1 style="color: white; font-weight: bold; text-align: center">Welcome to Staff Recruitment Online Examination System</h1>
   </div>
   <div class="row justify-content-center mt-5">
-    <div class="col-md-12 mt-5" style="margin-top:60px;">
-      <center>
-        <a href="index1.php" class="btn btn-success btn-lg" style="padding: 15px 40px; font-size: 1.5em; border-radius: 8px; box-shadow:0 2px 8px rgba(0,0,0,0.08);">Get Started</a>
-      </center>
+    <div class="col-md-12 mt-5">
+      <br><br><br><br><br><br><br><br><br><br><br><br>
+      <center><a href="index1.php" class="btn btn-success">Get Started</a></center>
+      
     </div>
   </div>
 </div>
